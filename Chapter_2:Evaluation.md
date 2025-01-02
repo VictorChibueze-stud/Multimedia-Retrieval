@@ -63,7 +63,7 @@
         *   ẞ=0, only precision is considered;
         *  ẞ=∞, only recall is considered
 *   **Macro-evaluation:**
-    *   **Definition**: The average of a metric across all queries independently (for example, average of precision or recall over all queries)
+    *   **Definition**: The average of a metric across all queries independently (for example, average of precision or recall over all queries). The "query" in macro and micro evaluation is a specific, evaluated request for information. It is not just a user search, but rather part of a controlled experiment with known relevance assessments. These queries are often created to evaluate all use cases of the information retrieval system in question. The main goal is to understand how well the entire system performs, and not just a subset of the use cases.
     *   **Use Case**: Useful when you want to treat all queries as equally important.
     *   **Example**: Compute precision for each of the 100 queries, and then average these 100 precision values.
     *   **Pros:** Provides a balanced performance view across all queries, avoids overemphasizing results for queries with many relevant documents.
@@ -80,7 +80,14 @@
 **2.3 Retrieval with Order**
 
 *   **Mean Reciprocal Rank (MRR):**
-    *   **Definition:** The average of the reciprocal rank of the first relevant document. Only the rank of the first relevant document is considered.
+    *   **Rank:** The position of the first relevant document that your search system returns for a particular query.
+    *   **Reciprocal Rank:** The reciprocal of the rank of the first relevant document. It's the value you get after taking the rank and calculating 1/rank.
+So:
+If the first relevant document is at rank 1, the reciprocal rank is 1/1 = 1.
+If the first relevant document is at rank 2, the reciprocal rank is 1/2 = 0.5.
+If the first relevant document is at rank 5, the reciprocal rank is 1/5 = 0.2.
+If no relevant document is returned, some systems will consider the reciprocal rank is zero.
+    *   **Definition:** The average of all the reciprocal rank scores, across all of the queries in your evaluation set. This average gives you a single number to compare and evaluate your search systems.
     *   **Formula:** `MRR = 1/|Q| * Σ(1/rank_i)` where `rank_i` is the rank of the first relevant document for query `i`
     *   **Use Case:** Important when the first relevant document is the most critical, for example, in question answering, or fact checking. Also relevant in situations with sparse relevance assessments
     *   **Example**: Given queries with ranks 1, 3, 2, MRR = (1/1 + 1/3 + 1/2)/3 = (1 + 0.333 + 0.5)/3 = 0.611.
